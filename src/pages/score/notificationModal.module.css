@@ -1,0 +1,27 @@
+.notification {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.check {
+    font-size: 20px;
+    margin-right: 5px;
+}
+.check:hover {
+    color: green;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.cross {
+    font-size: 20px;
+    /* margin-right: 10px; */
+}
+.cross:hover {
+    color: red;
+    transform: scale(1.1);
+    cursor: pointer;
+}

@@ -1,0 +1,86 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width: 100%;
+    padding: 50px 0px 25px 0px;
+    height: 100vh;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #eeeeee;
+    border-radius: 10px;
+    background-color: white;
+    min-width: 400px;
+    width: 33%;
+    padding: 10px;
+    margin-bottom: 20px;
+    transition: transform .2s;
+    color: black;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+.info:hover{
+    border: 1px solid #1890FF;
+    transform: scale(1.01);
+}
+
+.score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #eeeeee;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    min-width: 48%;
+    transition: transform .2s;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+}
+.score:hover{
+    border: 1px solid #1890FF;
+    transform: scale(1.02);
+}
+
+.domscore {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 400px;
+    width: 33%;
+    color: black;
+}
+
+.top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 400px;
+    width: 33%;
+    margin-bottom: 20px;
+}
+
+.icon {
+    font-size: 27px;
+    transition: transform .2s;
+    color: black;
+}
+.icon:hover{
+    cursor: pointer;
+    color: #1890FF;
+    transform: scale(1.1);
+}
+
+.searchbar {
+    min-width: 80%;
+}
