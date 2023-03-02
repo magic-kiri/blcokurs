@@ -9,15 +9,19 @@ import Modal from "../../components/modal";
 
 const plainOptions = ["Unified Score", "Financial Score", "E-commerce Score"];
 const defaultCheckedList = ["Unified Score"];
-
-
 export default function RequestModal({
+  // @ts-ignore
   open,
+  // @ts-ignore
   setOpen,
-  identifier,
+  // @ts-ignore
   name,
+  // @ts-ignore
+  identifier,
+  // @ts-ignore
   querier,
 }) {
+  // @ts-ignore-end
   const [loading, setLoading] = useState(false);
 
   const [checkedList, setCheckedList] =
@@ -27,8 +31,7 @@ export default function RequestModal({
 
   const handleRequest = async () => {
     setLoading(true);
-    try
-    {
+    try {
       const domain = process.env.NEXT_PUBLIC_BC_URL;
       const response = await fetch(domain + "/reqForScore", {
         method: "post",
@@ -43,14 +46,15 @@ export default function RequestModal({
         },
       });
       const data = await response.json();
-      if(data.index){
+      if (data.index) {
         alert("Request Sent");
       }
-    }catch(err){
+    } catch (err) {
       console.log(err);
       alert("Request Failed");
     }
     setLoading(false);
+    setOpen(false);
   };
 
   const onChange = (list: CheckboxValueType[]) => {

@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import { useState } from "react";
 import { Button, Divider } from "antd";
 import nofiStyle from "./notificationModal.module.css";
@@ -8,8 +8,7 @@ import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
 //@ts-ignore
 export default function NotificationModal({ open, setOpen, scoreRequests }) {
-  const [count, setCount] = useState<number>(5);
-  console.log(scoreRequests);
+  console.log("Rendering Notification Modal");
   const options = scoreRequests.map(
     (req: {
       index: number;
@@ -25,7 +24,7 @@ export default function NotificationModal({ open, setOpen, scoreRequests }) {
       };
     }) => {
       const { us, fs, es } = req;
-      const list = [];
+      const list: string[] = [];
       if (us) {
         list.push("Unified Score");
       }
@@ -60,7 +59,7 @@ export default function NotificationModal({ open, setOpen, scoreRequests }) {
     }
   );
 
-  return count ? (
+  return scoreRequests.length ? (
     <Modal
       open={open}
       title="Notifications"

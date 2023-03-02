@@ -1,7 +1,7 @@
 "use client";
-
+import React from "react";
 import styles from "./page.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Page from "@/components/pagewrap";
 import { Input, Badge } from "antd";
 import { LogoutOutlined, NotificationOutlined } from "@ant-design/icons";
@@ -29,7 +29,7 @@ type scoreRequest = {
     name: string;
     index: number;
     identifier: string;
-  }
+  };
 };
 
 const filter = (searchText: string, registeredUsers: User[]) => {
@@ -61,13 +61,13 @@ export default function Score() {
   const [scoreRequests, setScoreRequests] = useState<scoreRequest[]>([]);
 
   useEffect(() => {
-    try{
+    try {
       //@ts-ignore
       const { identifier, name } = JSON.parse(Cookies.get("loginCookie"));
       setIdentifier(identifier);
       setName(name);
       const domain = process.env.NEXT_PUBLIC_BC_URL;
-  
+
       const fetchAndUpdateUsers = async () => {
         const response = await fetch(domain + "/getUserList", {
           method: "get",
@@ -94,14 +94,13 @@ export default function Score() {
         setUniScore(unifiedScore);
       };
       fetchAndUpdateScore();
-  
+
       const fetchScoreReq = async () => {
-        const {data} = await apiCall(scoreRequestQuery, { _eq: identifier });
-        setScoreRequests(data.Request)
+        const { data } = await apiCall(scoreRequestQuery, { _eq: identifier });
+        setScoreRequests(data.Request);
       };
-      fetchScoreReq()
-    }catch(err)
-    {
+      fetchScoreReq();
+    } catch (err) {
       console.log(err);
     }
   }, []);
@@ -135,7 +134,7 @@ export default function Score() {
             onChange={onChange}
             onSelect={onSelect}
           >
-            <Input.Search size="large" placeholder="search here" />
+            <Input.Search size="large" placeholder="Search here" />
           </AutoComplete>
 
           <Badge dot count={scoreRequests.length}>
@@ -174,18 +173,23 @@ export default function Score() {
           </div>
         </div>
 
-        <RequestModal
+        {useMemo(()=><RequestModal
           open={openRequest}
           setOpen={setOpenRequest}
           identifier={reqInfo.identifier}
           name={reqInfo.name}
           querier={identifier}
-        />
-        <NotificationModal
-          open={openNotification}
-          setOpen={setOpenNotification}
-          scoreRequests = {scoreRequests}
-        />
+        />,[openRequest,setOpenRequest, reqInfo, identifier])}
+        {useMemo(
+          () => (
+            <NotificationModal
+              open={openNotification}
+              setOpen={setOpenNotification}
+              scoreRequests={scoreRequests}
+            />
+          ),
+          [openNotification, setOpenNotification, scoreRequests]
+        )}
       </div>
     </Page>
   );
