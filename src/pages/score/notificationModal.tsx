@@ -124,7 +124,7 @@ export default function NotificationModal({ open, setOpen, scoreRequests }) {
       ]}
     >
       <Divider style={{ margin: "0px" }} />
-      <p>There is no notification right now!</p>
+      <p style={{marginTop: "5px", marginBottom: "5px"}}>There is no notification right now!</p>
       <Divider style={{ margin: "0px" }} />
     </Modal>
   );
