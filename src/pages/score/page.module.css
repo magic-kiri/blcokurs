@@ -4,7 +4,7 @@
     align-items: center;
     background-color: white;
     width: 100%;
-    padding: 50px 0px 25px 0px;
+    padding: 25px 0px 25px 0px;
     height: 100vh;
 }
 
@@ -13,7 +13,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid #eeeeee;
+    border: 1px solid #dddddd;
     border-radius: 10px;
     background-color: white;
     min-width: 400px;
@@ -35,7 +35,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid #eeeeee;
+    border: 1px solid #dddddd;
     border-radius: 10px;
     background-color: white;
     color: black;
@@ -70,12 +70,39 @@
     margin-bottom: 20px;
 }
 
-.icon {
+.nofiicon {
     font-size: 27px;
     transition: transform .2s;
     color: black;
 }
-.icon:hover{
+.nofiicon .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #1890FF;
+    color: #ffffff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 1;
+    display:inline-block;
+    position:relative;
+  }
+.nofiicon:hover{
+    cursor: pointer;
+    color: #1890FF;
+    transform: scale(1.1);
+}
+.nofiicon:hover .tooltiptext{
+    visibility: visible;
+}
+
+.logouticon {
+    font-size: 27px;
+    transition: transform .2s;
+    color: black;
+}
+.logouticon:hover{
     cursor: pointer;
     color: #1890FF;
     transform: scale(1.1);
