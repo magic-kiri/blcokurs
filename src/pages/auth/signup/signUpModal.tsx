@@ -27,6 +27,7 @@ export default function SignUpModal({ open, setOpen }) {
         identifier,
         metadata: password,
         passHash: sha256(password).toString(),
+        name,
       };
       try {
         const response = await fetch(domain + "/registration", {

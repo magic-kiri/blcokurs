@@ -10,12 +10,26 @@ import RequestModal from "./requestModal";
 import NotificationModal from "./notificationModal";
 import Cookies from "js-cookie";
 import Router from "next/router";
-import { userInfoQuery } from "../../../public/query";
+import { scoreRequestQuery, userInfoQuery } from "../../../public/query";
 import { apiCall } from "../../../public/apiCall";
 
 type User = {
   identifier: string;
   publicKey: string;
+};
+
+type scoreRequest = {
+  index: number;
+  querier: string;
+  responder: string;
+  us: boolean;
+  fs: boolean;
+  es: boolean;
+  User: {
+    name: string;
+    index: number;
+    identifier: string;
+  }
 };
 
 const filter = (searchText: string, registeredUsers: User[]) => {
@@ -44,39 +58,52 @@ export default function Score() {
     name: "Loading...",
   });
 
-  useEffect(() => {
-    //@ts-ignore
-    const { identifier, name } = JSON.parse(Cookies.get("loginCookie"));
-    setIdentifier(identifier);
-    setName(name);
-    const domain = process.env.NEXT_PUBLIC_BC_URL;
+  const [scoreRequests, setScoreRequests] = useState<scoreRequest[]>([]);
 
-    const fetchAndUpdateUsers = async () => {
-      const response = await fetch(domain + "/getUserList", {
-        method: "get",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const users = await response.json();
-      setRegisteredUsers(users);
-    };
-    fetchAndUpdateUsers();
-    const fetchAndUpdateScore = async () => {
-      const response = await fetch(domain + "/getReputationScore", {
-        method: "get",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      const { eCommerceScore, financialScore, unifiedScore } = data;
-      setFinScore(financialScore);
-      setEcomScore(eCommerceScore);
-      setUniScore(unifiedScore);
-    };
-    fetchAndUpdateScore();
+  useEffect(() => {
+    try{
+      //@ts-ignore
+      const { identifier, name } = JSON.parse(Cookies.get("loginCookie"));
+      setIdentifier(identifier);
+      setName(name);
+      const domain = process.env.NEXT_PUBLIC_BC_URL;
+  
+      const fetchAndUpdateUsers = async () => {
+        const response = await fetch(domain + "/getUserList", {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const users = await response.json();
+        setRegisteredUsers(users);
+      };
+      fetchAndUpdateUsers();
+      const fetchAndUpdateScore = async () => {
+        const response = await fetch(domain + "/getReputationScore", {
+          method: "get",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+        const { eCommerceScore, financialScore, unifiedScore } = data;
+        setFinScore(financialScore);
+        setEcomScore(eCommerceScore);
+        setUniScore(unifiedScore);
+      };
+      fetchAndUpdateScore();
+  
+      const fetchScoreReq = async () => {
+        const {data} = await apiCall(scoreRequestQuery, { _eq: identifier });
+        setScoreRequests(data.Request)
+      };
+      fetchScoreReq()
+    }catch(err)
+    {
+      console.log(err);
+    }
   }, []);
   const onSearch = (searchText: string) => {
     setOptions(!searchText ? [] : filter(searchText, registeredUsers));
@@ -91,8 +118,8 @@ export default function Score() {
     console.log(value);
     apiCall(userInfoQuery, { identifier: value }).then((res) => {
       const nameFromDB = res.data.User[0].name;
-      console.log(res.data.User[0])
-      setReqInfo({identifier: value, name: nameFromDB});
+      console.log(res.data.User[0]);
+      setReqInfo({ identifier: value, name: nameFromDB });
     });
   };
 
@@ -111,7 +138,7 @@ export default function Score() {
             <Input.Search size="large" placeholder="search here" />
           </AutoComplete>
 
-          <Badge dot count={5}>
+          <Badge dot count={scoreRequests.length}>
             <NotificationOutlined
               className={styles.icon}
               onClick={() => setOpenNotification(true)}
@@ -152,10 +179,12 @@ export default function Score() {
           setOpen={setOpenRequest}
           identifier={reqInfo.identifier}
           name={reqInfo.name}
+          querier={identifier}
         />
         <NotificationModal
           open={openNotification}
           setOpen={setOpenNotification}
+          scoreRequests = {scoreRequests}
         />
       </div>
     </Page>

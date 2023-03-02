@@ -8,3 +8,24 @@ export const userInfoQuery = `
         }
 }
 `;
+
+export const scoreRequestQuery =  `
+    
+    query MyQuery($_eq: String = "kiri") {
+            Request(where: {responder: {_eq: $_eq}}) {
+            index
+            fs
+            es
+            querier
+            responder
+            response
+            us
+            User {
+                name
+                index
+                identifier
+              }
+        }
+    }
+  
+`
