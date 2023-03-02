@@ -11,11 +11,9 @@ const plainOptions = ['Unified Score', 'Financial Score', 'E-commerce Score'];
 const defaultCheckedList = ['Unified Score'];
 
 //@ts-ignore
-export default function RequestModal({  open, setOpen }) {
-  const [name, setName] = useState<String>("Aia Lemonsky");
-  const [identifier, setIdentifier] = useState<String>("Kaaktaal");
+export default function RequestModal({  open, setOpen, identifier, name }) {
   const [loading, setLoading] = useState(false);
-
+  
   const [checkedList, setCheckedList] = useState<CheckboxValueType[]>(defaultCheckedList);
   const [indeterminate, setIndeterminate] = useState(true);
   const [checkAll, setCheckAll] = useState(false);

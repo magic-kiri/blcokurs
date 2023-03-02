@@ -9,11 +9,23 @@ import { AutoComplete } from "antd";
 import RequestModal from "./requestModal";
 import NotificationModal from "./notificationModal";
 import Cookies from "js-cookie";
+import Router from "next/router";
+import { userInfoQuery } from "../../../public/query";
+import { apiCall } from "../../../public/apiCall";
 
-const { Search } = Input;
-const mockVal = (str: string, repeat = 1) => ({
-  value: str.repeat(repeat),
-});
+type User = {
+  identifier: string;
+  publicKey: string;
+};
+
+const filter = (searchText: string, registeredUsers: User[]) => {
+  const filteredUser = registeredUsers.filter((user) =>
+    user.identifier.includes(searchText)
+  );
+  return filteredUser.map((user) => {
+    return { value: user.identifier };
+  });
+};
 
 export default function Score() {
   const [name, setName] = useState<string>("Aia Lemonsky");
@@ -24,18 +36,33 @@ export default function Score() {
 
   const [options, setOptions] = useState<{ value: string }[]>([]);
   const [value, setValue] = useState("");
-
   const [openRequest, setOpenRequest] = useState<boolean>(false);
   const [openNotification, setOpenNotification] = useState<boolean>(false);
+  const [registeredUsers, setRegisteredUsers] = useState<User[]>([]);
+  const [reqInfo, setReqInfo] = useState<{ identifier: string; name: string }>({
+    identifier: "Loading...",
+    name: "Loading...",
+  });
 
   useEffect(() => {
     //@ts-ignore
     const { identifier, name } = JSON.parse(Cookies.get("loginCookie"));
     setIdentifier(identifier);
     setName(name);
-    console.log("Check 0");
-    const getScore = async () => {
-      const domain = process.env.NEXT_PUBLIC_BC_URL;
+    const domain = process.env.NEXT_PUBLIC_BC_URL;
+
+    const fetchAndUpdateUsers = async () => {
+      const response = await fetch(domain + "/getUserList", {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const users = await response.json();
+      setRegisteredUsers(users);
+    };
+    fetchAndUpdateUsers();
+    const fetchAndUpdateScore = async () => {
       const response = await fetch(domain + "/getReputationScore", {
         method: "get",
         credentials: "include",
@@ -43,32 +70,30 @@ export default function Score() {
           "Content-Type": "application/json",
         },
       });
-      console.log("Check 1");
       const data = await response.json();
-      console.log(data);
       const { eCommerceScore, financialScore, unifiedScore } = data;
-      console.log("Check 2");
       setFinScore(financialScore);
       setEcomScore(eCommerceScore);
       setUniScore(unifiedScore);
     };
-    getScore();
+    fetchAndUpdateScore();
   }, []);
-
   const onSearch = (searchText: string) => {
-    setOptions(
-      !searchText
-        ? []
-        : [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)]
-    );
+    setOptions(!searchText ? [] : filter(searchText, registeredUsers));
   };
 
   const onChange = (data: string) => {
     setValue(data);
   };
 
-  const onSelect = () => {
+  const onSelect = (value: string) => {
     setOpenRequest(true);
+    console.log(value);
+    apiCall(userInfoQuery, { identifier: value }).then((res) => {
+      const nameFromDB = res.data.User[0].name;
+      console.log(res.data.User[0])
+      setReqInfo({identifier: value, name: nameFromDB});
+    });
   };
 
   return (
@@ -92,7 +117,10 @@ export default function Score() {
               onClick={() => setOpenNotification(true)}
             />
           </Badge>
-          <LogoutOutlined className={styles.icon} />
+          <LogoutOutlined
+            className={styles.icon}
+            onClick={() => Router.push("/")}
+          />
         </div>
 
         <div className={styles.info}>
@@ -119,7 +147,12 @@ export default function Score() {
           </div>
         </div>
 
-        <RequestModal open={openRequest} setOpen={setOpenRequest} />
+        <RequestModal
+          open={openRequest}
+          setOpen={setOpenRequest}
+          identifier={reqInfo.identifier}
+          name={reqInfo.name}
+        />
         <NotificationModal
           open={openNotification}
           setOpen={setOpenNotification}
