@@ -196,6 +196,7 @@ export default function Score() {
               open={openNotification}
               setOpen={setOpenNotification}
               scoreRequests={scoreRequests}
+              setScoreRequests={setScoreRequests}
             />
           ),
           [openNotification, setOpenNotification, scoreRequests]
