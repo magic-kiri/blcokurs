@@ -33,3 +33,28 @@ export const scoreRequestQuery = `
     }
   
 `;
+
+export const scoreResponseQuery = `
+    query MyQuery($_eq: String = "kiri") {
+            Request(where: {querier: {_eq: $_eq}}) {
+            index
+            fs
+            es
+            querier
+            responder
+            response
+            us
+            User {
+                name
+                index
+                identifier
+            }
+            userByResponder {
+                index
+                identifier
+                name
+            }
+        }
+    }
+  
+`;
