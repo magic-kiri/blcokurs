@@ -70,12 +70,12 @@
     margin-bottom: 20px;
 }
 
-.nofiicon {
+.notification {
     font-size: 27px;
     transition: transform .2s;
     color: black;
 }
-.nofiicon .tooltiptext {
+.notification .tooltiptext {
     visibility: hidden;
     width: 120px;
     background-color: #1890FF;
@@ -88,12 +88,12 @@
     display:inline-block;
     position:relative;
   }
-.nofiicon:hover{
+.notification:hover{
     cursor: pointer;
     color: #1890FF;
     transform: scale(1.1);
 }
-.nofiicon:hover .tooltiptext{
+.notification:hover .tooltiptext{
     visibility: visible;
 }
 
