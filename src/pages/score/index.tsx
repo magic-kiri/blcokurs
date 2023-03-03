@@ -149,12 +149,12 @@ export default function Score() {
 
           <Badge count={scoreRequests.length}>
             <NotificationOutlined
-              className={styles.icon}
+              className={styles.notification}
               onClick={() => setOpenNotification(true)}
             />
           </Badge>
           <LogoutOutlined
-            className={styles.icon}
+            className={styles.logouticon}
             onClick={() => Router.push("/")}
           />
         </div>
