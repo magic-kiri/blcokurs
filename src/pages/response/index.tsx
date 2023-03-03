@@ -184,6 +184,9 @@ export default function Home() {
 
   return (
       <div className={styles.main}>
+        <div className={styles.heading}>
+          <h3>Responses of Your Requests</h3>
+        </div>
         {options}
 
       </div>
