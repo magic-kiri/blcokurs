@@ -9,8 +9,7 @@ export const userInfoQuery = `
 }
 `;
 
-export const scoreRequestQuery =  `
-    
+export const scoreRequestQuery = `
     query MyQuery($_eq: String = "kiri") {
             Request(where: {responder: {_eq: $_eq}}) {
             index
@@ -24,8 +23,13 @@ export const scoreRequestQuery =  `
                 name
                 index
                 identifier
-              }
+            }
+            userByResponder {
+                index
+                identifier
+                name
+            }
         }
     }
   
-`
+`;

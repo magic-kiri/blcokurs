@@ -30,6 +30,12 @@ type scoreRequest = {
     index: number;
     identifier: string;
   };
+  userByResponder: {
+    name: string;
+    index: number;
+    identifier: string;
+  }
+  response:string
 };
 
 const filter = (searchText: string, registeredUsers: User[]) => {
@@ -97,7 +103,11 @@ export default function Score() {
 
       const fetchScoreReq = async () => {
         const { data } = await apiCall(scoreRequestQuery, { _eq: identifier });
-        setScoreRequests(data.Request);
+        const requests: scoreRequest[] = data.Request
+        // console.log({requests});
+        const filteredRequests = requests.filter((r)=> JSON.parse(r.response).verdict==="Pending")
+        // console.log({filteredRequests})
+        setScoreRequests(filteredRequests);
       };
       fetchScoreReq();
     } catch (err) {
@@ -137,7 +147,7 @@ export default function Score() {
             <Input.Search size="large" placeholder="Search here" />
           </AutoComplete>
 
-          <Badge dot count={scoreRequests.length}>
+          <Badge count={scoreRequests.length}>
             <NotificationOutlined
               className={styles.icon}
               onClick={() => setOpenNotification(true)}

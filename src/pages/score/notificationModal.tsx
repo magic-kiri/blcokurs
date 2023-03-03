@@ -8,7 +8,35 @@ import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
 //@ts-ignore
 export default function NotificationModal({ open, setOpen, scoreRequests }) {
-  console.log("Rendering Notification Modal");
+  const handleReqResponse = async (req: any, verdict: boolean) => {
+    try {
+      const { us, fs, es, index, querier, responder, userByResponder } = req;
+      const domain = process.env.NEXT_PUBLIC_BC_URL;
+      const response = await fetch(domain + "/responseScoreRequest", {
+        method: "post",
+        credentials: "include",
+        body: JSON.stringify({
+          index,
+          verdict,
+          us,
+          fs,
+          es,
+          querier,
+          responder,
+          responderName: userByResponder.name,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const body = await response.json();
+      console.log(body);
+    } catch (err) {
+      console.log(err);
+      alert("Error Occured");
+    }
+  };
+
   const options = scoreRequests.map(
     (req: {
       index: number;
@@ -18,6 +46,11 @@ export default function NotificationModal({ open, setOpen, scoreRequests }) {
       fs: boolean;
       es: boolean;
       User: {
+        name: string;
+        index: number;
+        identifier: string;
+      };
+      userByResponder: {
         name: string;
         index: number;
         identifier: string;
@@ -44,15 +77,20 @@ export default function NotificationModal({ open, setOpen, scoreRequests }) {
         console.log("Seripusly?");
         displayScore = list[0] + ", " + list[1] + " and " + list[2];
       }
-
       return (
         <div key={req.index} className={nofiStyle.notification}>
           <p>
             {req.User.name} wants to know your {displayScore}.
           </p>
-          <div>
-            <CheckCircleOutlined className={nofiStyle.check} />
-            <CloseCircleOutlined className={nofiStyle.cross} />
+          <div className={nofiStyle.icons}>
+            <CheckCircleOutlined
+              onClick={() => handleReqResponse(req, true)}
+              className={nofiStyle.check}
+            />
+            <CloseCircleOutlined
+              onClick={() => handleReqResponse(req, false)}
+              className={nofiStyle.cross}
+            />
           </div>
         </div>
       );
