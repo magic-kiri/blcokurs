@@ -93,7 +93,7 @@ export default function RequestModal({
         User Name: <b>{name}</b>
       </p>
       <p>
-        User Identifier: <b>{identifier}</b>
+        User Identifier (NID): <b>{identifier}</b>
       </p>
       <p style={{ marginTop: "10px" }}>
         (Please, check the preferred options.)

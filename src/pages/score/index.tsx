@@ -3,8 +3,8 @@ import React from "react";
 import styles from "./page.module.css";
 import { useState, useEffect, useMemo } from "react";
 import Page from "@/components/pagewrap";
-import { Input, Badge } from "antd";
-import { LogoutOutlined, NotificationOutlined } from "@ant-design/icons";
+import { Input, Badge, Tooltip } from "antd";
+import { ContainerOutlined, LogoutOutlined, NotificationOutlined } from "@ant-design/icons";
 import { AutoComplete } from "antd";
 import RequestModal from "./requestModal";
 import NotificationModal from "./notificationModal";
@@ -144,19 +144,31 @@ export default function Score() {
             onChange={onChange}
             onSelect={onSelect}
           >
-            <Input.Search size="large" placeholder="Search here" />
+          <Input.Search size="large" placeholder="Search here" />
           </AutoComplete>
 
-          <Badge count={scoreRequests.length}>
+          <Tooltip title="Notifications">
+          <Badge dot count={scoreRequests.length}>
             <NotificationOutlined
-              className={styles.notification}
+              className={styles.nofiicon}
               onClick={() => setOpenNotification(true)}
             />
           </Badge>
+          </Tooltip>
+
+          <Tooltip title="Responses">
+          <ContainerOutlined
+            className={styles.respicon}
+            onClick={() => Router.push("/response")}
+          />
+          </Tooltip>
+
+          <Tooltip title="Log Out">
           <LogoutOutlined
             className={styles.logouticon}
             onClick={() => Router.push("/")}
           />
+          </Tooltip>
         </div>
 
         <div className={styles.info}>

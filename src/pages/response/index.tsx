@@ -1,9 +1,11 @@
 import styles from './page.module.css';
 import { useState, useEffect } from "react";
-import { Divider } from 'antd';
+import { Divider, Tooltip } from 'antd';
 import { apiCall } from "../../../public/apiCall";
 import Cookies from "js-cookie";
 import { scoreResponseQuery } from "../../../public/query";
+import { HomeOutlined, LogoutOutlined, NotificationOutlined } from '@ant-design/icons';
+import Router from "next/router";
 
 type response = {
   index: number;
@@ -186,8 +188,22 @@ export default function Home() {
 
   return (
       <div className={styles.main}>
-        <div className={styles.heading}>
-          <h3>Responses of Your Requests</h3>
+        <div className={styles.top}>
+          <h3 className={styles.heading}>Responses of Your Requests</h3>
+
+          <Tooltip title="Home">
+          <HomeOutlined
+            className={styles.icon}
+            onClick={() => Router.push("/score")}
+          />
+          </Tooltip>
+
+          <Tooltip title="Log Out">
+          <LogoutOutlined
+            className={styles.icon}
+            onClick={() => Router.push("/")}
+          />
+          </Tooltip>
         </div>
         {options}
 

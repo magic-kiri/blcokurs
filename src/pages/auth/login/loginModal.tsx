@@ -60,9 +60,9 @@ export default function LoginModal({ open, setOpen }) {
       ]}
     >
       <Divider style={{ margin: "0px" }} />
-      <p style={{ padding: "5px" }}> Please enter your identifier.</p>
+      <p style={{ padding: "5px" }}> Please enter your identifier (NID/Passport No.).</p>
       <Input
-        placeholder="Identifier"
+        placeholder="Identifier (NID/Passport No.)"
         onChange={(e) => setIdentifier(e.target.value)}
       />
       <p style={{ padding: "5px" }}> Please enter your password.</p>

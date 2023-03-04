@@ -70,31 +70,26 @@
     margin-bottom: 20px;
 }
 
-.notification {
+.nofiicon {
     font-size: 27px;
     transition: transform .2s;
     color: black;
 }
-.notification .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: #1890FF;
-    color: #ffffff;
-    text-align: center;
-    padding: 5px;
-    border-radius: 5px;
-    position: absolute;
-    z-index: 1;
-    display:inline-block;
-    position:relative;
-  }
-.notification:hover{
+.nofiicon:hover{
     cursor: pointer;
     color: #1890FF;
     transform: scale(1.1);
 }
-.notification:hover .tooltiptext{
-    visibility: visible;
+
+.respicon {
+    font-size: 27px;
+    transition: transform .2s;
+    color: black;
+}
+.respicon:hover{
+    cursor: pointer;
+    color: #1890FF;
+    transform: scale(1.1);
 }
 
 .logouticon {
@@ -109,5 +104,5 @@
 }
 
 .searchbar {
-    min-width: 80%;
+    min-width: 75%;
 }
