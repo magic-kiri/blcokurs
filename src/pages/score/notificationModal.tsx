@@ -41,7 +41,6 @@ export default function NotificationModal({ open, setOpen, scoreRequests, setSco
     if (es) {
       list.push("E-Commerce Score");
     }
-    console.log(list, list.length);
     let displayScore = "";
     if (list.length == 1) {
       displayScore = list[0];
@@ -57,6 +56,7 @@ export default function NotificationModal({ open, setOpen, scoreRequests, setSco
         idx={idx}
         displayScore={displayScore}
         setScoreRequests={setScoreRequests}
+        scoreRequests={scoreRequests}
       />
     );
   });
@@ -97,11 +97,11 @@ export default function NotificationModal({ open, setOpen, scoreRequests, setSco
 }
 
 
-const handleReqResponse = async (req: any, verdict: boolean, setScoreRequests: any) => {
+const handleReqResponse = async (req: any, verdict: boolean) => {
   try {
     const { us, fs, es, index, querier, responder, userByResponder } = req;
-    console.log({ querier, responder });
     const domain = process.env.NEXT_PUBLIC_BC_URL;
+
     const response = await fetch(domain + "/responseScoreRequest", {
       method: "post",
       credentials: "include",
@@ -120,13 +120,6 @@ const handleReqResponse = async (req: any, verdict: boolean, setScoreRequests: a
       },
     });
     const body = await response.json();
-    console.log(body);
-    if(body)
-    {
-      setScoreRequests((scoreRequests:ReqType[])=>{
-        return scoreRequests.filter((req)=>req.index!==index)
-      })
-    }
   } catch (err) {
     console.log(err);
     alert("Error Occured");
@@ -138,23 +131,33 @@ const SingleRequest = ({
   idx,
   name,
   displayScore,
-  setScoreRequests
+  setScoreRequests,
+  scoreRequests
 }: {
   req: ReqType;
   idx: number;
   name: string;
   displayScore: string;
   setScoreRequests: any;
+  scoreRequests: ReqType[];
 }) => {
   const [show, setShow] = useState(true);
   const nodeRef = useRef(null);
+  console.log({show, idx, value: req.index})
   return (
       <CSSTransition
         in={show}
         nodeRef={nodeRef}
-        timeout={600}
+        timeout={800}
         classNames="cancel"
-        unmountOnExit
+        onExited={()=>{ 
+          setScoreRequests((scoreReqs:ReqType[])=>{
+          const newState =  scoreReqs.filter((reqs)=>reqs.index!==req.index)
+          return newState;
+        })
+          setShow(true);
+      }}
+        
       >
         <div ref={nodeRef} key={idx} className={nofiStyle.notification}>
           <p>
@@ -162,11 +165,11 @@ const SingleRequest = ({
           </p>
           <div className={nofiStyle.icons}>
             <CheckCircleOutlined
-              onClick={() =>{setShow(false); handleReqResponse(req, true, setScoreRequests)}}
+              onClick={() =>{setShow(false); handleReqResponse(req, true)}}
               className={nofiStyle.check}
               />
             <CloseCircleOutlined
-              onClick={() =>{setShow(false); handleReqResponse(req, false, setScoreRequests)}}
+              onClick={() =>{setShow(false); handleReqResponse(req, false)}}
               className={nofiStyle.cross}
             />
           </div>

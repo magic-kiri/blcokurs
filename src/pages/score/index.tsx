@@ -199,7 +199,7 @@ export default function Score() {
               setScoreRequests={setScoreRequests}
             />
           ),
-          [openNotification, setOpenNotification, scoreRequests]
+          [openNotification, setOpenNotification, scoreRequests, setScoreRequests]
         )}
       </div>
     </Page>
