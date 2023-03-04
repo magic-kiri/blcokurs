@@ -86,7 +86,7 @@ export default function Home() {
 
             {res.us ? (
               <div>
-                Unified Score: {res.values.uscore}
+                Unified Score: {Math.round(res.values.uscore)}
               </div> 
             ) : (
               <>  </>
@@ -94,7 +94,7 @@ export default function Home() {
 
             {res.fs ? (
               <div>
-                Financial Score: {res.values.fscore}
+                Financial Score: {Math.round(res.values.fscore)}
               </div> 
             ) : (
               <>  </>
@@ -102,7 +102,7 @@ export default function Home() {
 
             {res.es ? (
               <div>
-                E-commerce Score: {res.values.escore}
+                E-commerce Score: {Math.round(res.values.escore)}
               </div> 
             ) : (
               <>  </>

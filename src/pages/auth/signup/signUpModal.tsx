@@ -79,9 +79,9 @@ export default function SignUpModal({ open, setOpen }) {
         onChange={(e) => setName(e.target.value)}
         style={{ marginBottom: "5px" }}
       />
-      <p style={{ padding: "5px" }}> Please enter your identifier.</p>
+      <p style={{ padding: "5px" }}> Please enter your Identifier (NID/Passport no.)</p>
       <Input
-        placeholder="Unique Identifier"
+        placeholder="Identifier (NID/Passport no.)"
         onChange={(e) => setIdentifier(e.target.value)}
       />
       <p style={{ padding: "5px" }}> Please enter a new password.</p>

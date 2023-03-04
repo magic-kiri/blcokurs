@@ -169,17 +169,17 @@ export default function Score() {
             {" "}
             Unified Score{" "}
           </b>
-          <h1 style={{ fontSize: "50px" }}> {uniScore} </h1>
+          <h1 style={{ fontSize: "50px" }}> {Math.round(uniScore)} </h1>
         </div>
 
         <div className={styles.domscore}>
           <div className={styles.score}>
             <b> Financial Score</b>
-            <b style={{ fontSize: "25px" }}> {finScore} </b>
+            <b style={{ fontSize: "25px" }}> {Math.round(finScore)} </b>
           </div>
           <div className={styles.score}>
             <b> E-commerce Score</b>
-            <b style={{ fontSize: "25px" }}>{ecomScore} </b>
+            <b style={{ fontSize: "25px" }}>{Math.round(ecomScore)} </b>
           </div>
         </div>
 
