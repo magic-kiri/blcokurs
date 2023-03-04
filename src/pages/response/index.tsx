@@ -45,11 +45,7 @@ type scoreRequest = {
 
 export default function Home() {
   // const [name, setName] = useState<String>("Aia Lemonsky");
-  const [responses, setResponses] = useState<response[]>([
-    // {verdict: "accepted", us: true, fs: false, es: true, querier: "Harry Seldon", responderName: "Aia Lemonsky", values: {uscore: 68, fscore: 72, escore: 64} },
-    // {verdict: "pending", us: true, fs: false, es: true, querier: "Lionel Messi", responderName: "Aia Lemonsky", values: {} },
-    // {verdict: "rejected", us: true, fs: false, es: true, querier: "Manku", responderName: "Aia Lemonsky", values: {} }
-  ])
+  const [responses, setResponses] = useState<response[]>([])
 
   useEffect(()=>{
     //@ts-ignore
@@ -60,9 +56,15 @@ export default function Home() {
       const filteredRequests = requests.map((req)=>{
         const obj:response = JSON.parse(JSON.stringify(req));
         obj.responderName = req.userByResponder.name
-        console.log(typeof req.response);
-        obj.values = JSON.parse(req.response)
-        obj.verdict = obj.values.verdict
+
+
+        const response = JSON.parse(req.response)
+        obj.verdict = response.verdict;
+        // console.log({response});
+
+        if(response.verdict === "Accepted")
+        obj.values = JSON.parse(JSON.stringify((response.values)));
+        // console.log(obj)
         return obj
       })
       console.log(filteredRequests);
@@ -119,7 +121,7 @@ export default function Home() {
 
             {res.us ? (
               <div>
-                Unified Score {res.values.uscore}
+                Unified Score 
               </div> 
             ) : (
               <>  </>
@@ -127,7 +129,7 @@ export default function Home() {
 
             {res.fs ? (
               <div>
-                Financial Score {res.values.fscore}
+                Financial Score 
               </div> 
             ) : (
               <>  </>
@@ -135,7 +137,7 @@ export default function Home() {
 
             {res.es ? (
               <div>
-                E-commerce Score {res.values.escore}
+                E-commerce Score 
               </div> 
             ) : (
               <>  </>
@@ -154,7 +156,7 @@ export default function Home() {
 
             {res.us ? (
               <div>
-                Unified Score {res.values.uscore}
+                Unified Score
               </div> 
             ) : (
               <>  </>
@@ -162,7 +164,7 @@ export default function Home() {
 
             {res.fs ? (
               <div>
-                Financial Score {res.values.fscore}
+                Financial Score
               </div> 
             ) : (
               <>  </>
@@ -170,7 +172,7 @@ export default function Home() {
 
             {res.es ? (
               <div>
-                E-commerce Score {res.values.escore}
+                E-commerce Score
               </div> 
             ) : (
               <>  </>
